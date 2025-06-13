@@ -124,7 +124,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-const AuthContext = createContext(undefined);
+export const AuthContext = createContext(undefined);
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
 const AUTH_API_URL = `${API_BASE_URL}/auth`;
 

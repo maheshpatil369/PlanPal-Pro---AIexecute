@@ -13,7 +13,7 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+  
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
@@ -33,6 +33,12 @@ app.get('/', (req, res) => {
 app.use('/api/items', require('./routes/items'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/trips', require('./routes/trips'));
+// app.use('/api/announcements', require('./routes/announcements')); // This line is now redundant
+app.use('/api/calendar-events', require('./routes/calendarEvents'));
+app.use('/api/chat', require('./routes/chat'));
+app.use('/api/explore', require('./routes/explore'));
+app.use('/api/settings', require('./routes/settings'));
+app.use('/api/teams', require('./routes/teams'));
 
 const PORT = process.env.PORT || 5000;
 

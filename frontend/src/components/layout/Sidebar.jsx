@@ -27,17 +27,36 @@ const navigation = [
   { name: 'Settings', href: '/settings', icon: Settings },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ isMobileSidebarOpen }) => {
   const location = useLocation();
   const { logout } = useAuth();
 
+  // Base classes for the sidebar
+  const baseClasses = "fixed inset-y-0 left-0 z-30 w-64 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-r border-gray-200 dark:border-gray-700 pt-16 transition-transform duration-300 ease-in-out";
+
+  // Determine classes based on screen size and mobile open state
+  // On md+ screens, it's always translated to 0 (visible).
+  // On smaller screens, its translation depends on isMobileSidebarOpen.
+  const responsiveClasses = `
+    md:translate-x-0
+    ${isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full md:-translate-x-0'}
+  `;
+  // The md:-translate-x-0 in the else part ensures that if isMobileSidebarOpen is false,
+  // it doesn't override the md:translate-x-0 that keeps it open on desktop.
+
   return (
-    <motion.aside 
+    <motion.aside
+      // Animate x based on isMobileSidebarOpen for mobile, but allow initial desktop animation
+      // For simplicity, we'll let Tailwind handle the transform for mobile toggling.
+      // The initial animation is primarily for desktop load.
       initial={{ x: -280 }}
       animate={{ x: 0 }}
-      className="fixed inset-y-0 left-0 z-40 w-64 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-r border-gray-200 dark:border-gray-700 pt-16"
+      transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
+      // Apply base and responsive classes
+      className={`${baseClasses} ${responsiveClasses}`}
     >
       <div className="flex flex-col h-full">
+        {/* Navigation and Logout Button content remains the same */}
         <nav className="flex-1 px-4 py-6 space-y-2">
           {navigation.map((item) => {
             const isActive = location.pathname === item.href;

@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Plane, Moon, Sun, Bell, Search, User } from 'lucide-react';
+import { Plane, Moon, Sun, Bell, Search, User, Menu } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
 
-const Header = () => {
+const Header = ({ toggleMobileSidebar }) => {
   const { user, logout } = useAuth();
   const { isDark, toggleTheme } = useTheme();
 
@@ -17,6 +17,17 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
+            {/* Mobile menu button */}
+            <div className="md:hidden mr-2">
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                onClick={toggleMobileSidebar}
+                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                aria-label="Open sidebar"
+              >
+                <Menu className="h-6 w-6 text-gray-600 dark:text-gray-300" />
+              </motion.button>
+            </div>
             <div className="flex-shrink-0 flex items-center space-x-3">
               <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                 <Plane className="h-5 w-5 text-white" />
